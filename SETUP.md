@@ -38,7 +38,16 @@ pip install -r requirements.txt
 5. Click the new service account, go to the **Keys** tab, and click **Add Key → Create new key → JSON**.
 6. Download the JSON file — you'll use its contents in `secrets.toml`.
 
-### 3b. Prepare the Google Doc
+
+### 3b. Use existing Google Doc
+
+Need The Document ID — it's in the URL when you have the Doc open:
+https://docs.google.com/document/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms/edit
+Copy that long string and put it in your secrets.toml as doc_id.
+Share the Doc with your service account — open the Doc, click Share, and add the client_email from your service account JSON (it looks like something@your-project.iam.gserviceaccount.com) with Editor permissions.
+
+
+### 3c. OR Prepare new Google Doc
 
 1. Create a new Google Doc.
 2. Insert a table (Insert → Table) with **5 columns** and at least **1 header row**. Label the headers:

@@ -4,7 +4,6 @@ import pandas as pd
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 import json
-from datetime import datetime
 
 # ── Page config ──────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -169,11 +168,9 @@ def append_row_to_doc(doc_id: str, set_data: dict):
     cells = new_row["tableCells"]
 
     cell_texts = [
-        set_data["set_num"],
-        set_data["name"],
-        str(set_data["year"]),
-        set_data["theme"],
-        datetime.now().strftime("%Y-%m-%d"),
+        set_data["name"], # Kit column
+        set_data["set_num"], # Set column
+        set_data["theme"], # Theme column
     ]
 
     insert_requests = []
@@ -259,11 +256,9 @@ if st.session_state.fetched_set:
         if success:
             st.markdown('<div class="success-banner">✅ Set logged successfully!</div>', unsafe_allow_html=True)
             st.session_state.recent_additions.append({
-                "Set ID": s["set_num"],
                 "Name": s["name"],
                 "Year": s["year"],
                 "Theme": s["theme"],
-                "Date Added": datetime.now().strftime("%Y-%m-%d"),
             })
             st.session_state.fetched_set = None
 
