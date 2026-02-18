@@ -4,6 +4,7 @@ import pandas as pd
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 import json
+from datetime import datetime
 
 # ── Page config ──────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -79,7 +80,6 @@ REBRICKABLE_BASE = "https://rebrickable.com/api/v3/lego"
 
 def get_lego_api_key() -> str:
     return st.secrets["lego"]["api_key"]
-    
 
 def fetch_set(set_id: str) -> dict | None:
     """Fetch set details from Rebrickable. Returns dict or None on failure."""
@@ -169,9 +169,11 @@ def append_row_to_doc(doc_id: str, set_data: dict):
     cells = new_row["tableCells"]
 
     cell_texts = [
-        set_data["name"], # Kit column
-        set_data["set_num"], # Set column
-        set_data["theme"], # Theme column
+        set_data["set_num"],
+        set_data["name"],
+        str(set_data["year"]),
+        set_data["theme"],
+        datetime.now().strftime("%Y-%m-%d"),
     ]
 
     # Insert text one cell at a time, re-fetching indices each time
@@ -262,9 +264,11 @@ if st.session_state.fetched_set:
         if success:
             st.markdown('<div class="success-banner">✅ Set logged successfully!</div>', unsafe_allow_html=True)
             st.session_state.recent_additions.append({
+                "Set ID": s["set_num"],
                 "Name": s["name"],
                 "Year": s["year"],
                 "Theme": s["theme"],
+                "Date Added": datetime.now().strftime("%Y-%m-%d"),
             })
             st.session_state.fetched_set = None
 
